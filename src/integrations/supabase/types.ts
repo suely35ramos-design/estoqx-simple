@@ -171,6 +171,33 @@ export type Database = {
           },
         ]
       }
+      configuracoes: {
+        Row: {
+          chave: string
+          created_at: string | null
+          descricao: string | null
+          id: string
+          updated_at: string | null
+          valor: Json
+        }
+        Insert: {
+          chave: string
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          updated_at?: string | null
+          valor?: Json
+        }
+        Update: {
+          chave?: string
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          updated_at?: string | null
+          valor?: Json
+        }
+        Relationships: []
+      }
       custo_unitario: {
         Row: {
           created_at: string | null
