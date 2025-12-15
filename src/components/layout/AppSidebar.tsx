@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
@@ -12,9 +12,12 @@ import {
   ChevronRight,
   Box,
   AlertTriangle,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -33,6 +36,22 @@ const secondaryNav = [
 export function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut, user } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Erro ao sair",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      navigate('/auth');
+    }
+  };
 
   return (
     <aside
@@ -120,6 +139,26 @@ export function AppSidebar() {
           </div>
         </div>
       </nav>
+
+      {/* User & Logout */}
+      <div className="px-3 py-2 border-t border-sidebar-border">
+        {user && !collapsed && (
+          <p className="text-xs text-sidebar-foreground/60 truncate mb-2 px-3">
+            {user.email}
+          </p>
+        )}
+        <Button
+          variant="ghost"
+          onClick={handleLogout}
+          className={cn(
+            "w-full flex items-center gap-3 px-3 py-2.5 text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10",
+            collapsed && "justify-center"
+          )}
+        >
+          <LogOut className="w-5 h-5 shrink-0" />
+          {!collapsed && <span className="font-medium text-sm">Sair</span>}
+        </Button>
+      </div>
 
       {/* Collapse Toggle */}
       <div className="p-3 border-t border-sidebar-border">

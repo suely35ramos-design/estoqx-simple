@@ -3,7 +3,9 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
 import Materiais from "./pages/Materiais";
 import Entrada from "./pages/Entrada";
 import Saida from "./pages/Saida";
@@ -22,14 +24,15 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/materiais" element={<Materiais />} />
-          <Route path="/entrada" element={<Entrada />} />
-          <Route path="/saida" element={<Saida />} />
-          <Route path="/ferramentas" element={<Ferramentas />} />
-          <Route path="/alertas" element={<Alertas />} />
-          <Route path="/relatorios" element={<Relatorios />} />
-          <Route path="/config" element={<Config />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+          <Route path="/materiais" element={<ProtectedRoute><Materiais /></ProtectedRoute>} />
+          <Route path="/entrada" element={<ProtectedRoute><Entrada /></ProtectedRoute>} />
+          <Route path="/saida" element={<ProtectedRoute><Saida /></ProtectedRoute>} />
+          <Route path="/ferramentas" element={<ProtectedRoute><Ferramentas /></ProtectedRoute>} />
+          <Route path="/alertas" element={<ProtectedRoute><Alertas /></ProtectedRoute>} />
+          <Route path="/relatorios" element={<ProtectedRoute><Relatorios /></ProtectedRoute>} />
+          <Route path="/config" element={<ProtectedRoute><Config /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
