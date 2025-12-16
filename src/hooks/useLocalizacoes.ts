@@ -7,7 +7,7 @@ export interface Localizacao {
   nome_local: string;
   descricao: string | null;
   capacidade_m3: number | null;
-  id_obra: string;
+  id_obra: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -16,7 +16,7 @@ export interface LocalizacaoInsert {
   nome_local: string;
   descricao?: string | null;
   capacidade_m3?: number | null;
-  id_obra: string;
+  id_obra?: string | null;
 }
 
 export function useLocalizacoesList() {
