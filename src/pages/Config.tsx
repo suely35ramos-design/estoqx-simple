@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useConfiguracoes, useUpdateConfiguracao } from "@/hooks/useConfiguracoes";
 import { toast } from "@/hooks/use-toast";
+import { LocalArmazenamentoSection } from "@/components/config/LocalArmazenamentoSection";
 
 interface SettingsSection {
   id: string;
@@ -97,7 +98,7 @@ export default function Config() {
   return (
     <MainLayout
       title="Configurações"
-      subtitle="Gerencie as configurações do sistema ESTOQX"
+      subtitle="Gerencie as configurações do sistema GranRedes"
     >
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sidebar Navigation */}
@@ -364,8 +365,11 @@ export default function Config() {
             </div>
           )}
 
+          {/* Locais de Armazenamento */}
+          {activeSection === "locais" && <LocalArmazenamentoSection />}
+
           {/* Placeholder for other sections */}
-          {!["obra", "movimentacao", "alertas"].includes(activeSection) && (
+          {!["obra", "movimentacao", "alertas", "locais"].includes(activeSection) && (
             <div className="bg-card rounded-xl border shadow-card p-6">
               <div className="text-center py-12 text-muted-foreground">
                 <p className="text-lg font-medium">Em desenvolvimento</p>

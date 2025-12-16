@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Materiais from "./pages/Materiais";
+import Fornecedores from "./pages/Fornecedores";
 import Entrada from "./pages/Entrada";
 import Saida from "./pages/Saida";
 import Ferramentas from "./pages/Ferramentas";
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
           <Route path="/materiais" element={<ProtectedRoute><Materiais /></ProtectedRoute>} />
+          <Route path="/fornecedores" element={<ProtectedRoute><Fornecedores /></ProtectedRoute>} />
           <Route path="/entrada" element={<ProtectedRoute><Entrada /></ProtectedRoute>} />
           <Route path="/saida" element={<ProtectedRoute><Saida /></ProtectedRoute>} />
           <Route path="/ferramentas" element={<ProtectedRoute><Ferramentas /></ProtectedRoute>} />

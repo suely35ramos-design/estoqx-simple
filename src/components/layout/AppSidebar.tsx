@@ -13,6 +13,7 @@ import {
   Box,
   AlertTriangle,
   LogOut,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Materiais", href: "/materiais", icon: Package },
+  { name: "Fornecedores", href: "/fornecedores", icon: Building2 },
   { name: "Entrada", href: "/entrada", icon: ArrowDownToLine },
   { name: "Saída", href: "/saida", icon: ArrowUpFromLine },
   { name: "Ferramentas", href: "/ferramentas", icon: Wrench },
@@ -68,7 +70,7 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <div className="animate-fade-in">
-              <h1 className="text-lg font-bold tracking-tight">ESTOQX</h1>
+              <h1 className="text-lg font-bold tracking-tight">GranRedes</h1>
               <p className="text-xs text-sidebar-foreground/60">Gestão de Estoque</p>
             </div>
           )}
