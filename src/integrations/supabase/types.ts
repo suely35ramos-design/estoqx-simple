@@ -387,7 +387,7 @@ export type Database = {
           created_at: string | null
           descricao: string | null
           id: string
-          id_obra: string
+          id_obra: string | null
           nome_local: string
           updated_at: string | null
         }
@@ -396,7 +396,7 @@ export type Database = {
           created_at?: string | null
           descricao?: string | null
           id?: string
-          id_obra: string
+          id_obra?: string | null
           nome_local: string
           updated_at?: string | null
         }
@@ -405,7 +405,7 @@ export type Database = {
           created_at?: string | null
           descricao?: string | null
           id?: string
-          id_obra?: string
+          id_obra?: string | null
           nome_local?: string
           updated_at?: string | null
         }

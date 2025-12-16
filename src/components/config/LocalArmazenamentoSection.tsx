@@ -10,13 +10,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Table,
   TableBody,
   TableCell,
@@ -34,7 +27,6 @@ import {
 } from "lucide-react";
 import {
   useLocalizacoesList,
-  useObras,
   useCreateLocalizacao,
   useUpdateLocalizacao,
   useDeleteLocalizacao,
@@ -45,15 +37,13 @@ import {
 export function LocalArmazenamentoSection() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingLocal, setEditingLocal] = useState<Localizacao | null>(null);
-  const [formData, setFormData] = useState<LocalizacaoInsert>({
+  const [formData, setFormData] = useState<Omit<LocalizacaoInsert, 'id_obra'>>({
     nome_local: "",
     descricao: "",
     capacidade_m3: null,
-    id_obra: "",
   });
 
   const { data: localizacoes, isLoading } = useLocalizacoesList();
-  const { data: obras } = useObras();
   const createLocalizacao = useCreateLocalizacao();
   const updateLocalizacao = useUpdateLocalizacao();
   const deleteLocalizacao = useDeleteLocalizacao();
@@ -64,7 +54,6 @@ export function LocalArmazenamentoSection() {
       nome_local: "",
       descricao: "",
       capacidade_m3: null,
-      id_obra: obras?.[0]?.id || "",
     });
     setDialogOpen(true);
   };
@@ -75,13 +64,12 @@ export function LocalArmazenamentoSection() {
       nome_local: local.nome_local,
       descricao: local.descricao || "",
       capacidade_m3: local.capacidade_m3,
-      id_obra: local.id_obra,
     });
     setDialogOpen(true);
   };
 
   const handleSubmit = async () => {
-    if (!formData.nome_local || !formData.id_obra) return;
+    if (!formData.nome_local) return;
 
     if (editingLocal) {
       await updateLocalizacao.mutateAsync({
@@ -89,7 +77,7 @@ export function LocalArmazenamentoSection() {
         ...formData,
       });
     } else {
-      await createLocalizacao.mutateAsync(formData);
+      await createLocalizacao.mutateAsync(formData as LocalizacaoInsert);
     }
     setDialogOpen(false);
   };
@@ -230,27 +218,6 @@ export function LocalArmazenamentoSection() {
                 placeholder="Capacidade em metros cúbicos"
               />
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="obra">Obra *</Label>
-              <Select
-                value={formData.id_obra}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, id_obra: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione a obra" />
-                </SelectTrigger>
-                <SelectContent>
-                  {obras?.map((obra) => (
-                    <SelectItem key={obra.id} value={obra.id}>
-                      {obra.nome_obra}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
           </div>
 
           <DialogFooter>
@@ -262,7 +229,6 @@ export function LocalArmazenamentoSection() {
               onClick={handleSubmit}
               disabled={
                 !formData.nome_local ||
-                !formData.id_obra ||
                 createLocalizacao.isPending ||
                 updateLocalizacao.isPending
               }
