@@ -33,6 +33,7 @@ import {
   type Localizacao,
   type LocalizacaoInsert,
 } from "@/hooks/useLocalizacoes";
+import { useUserRole } from "@/hooks/useUserRole";
 
 export function LocalArmazenamentoSection() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -44,6 +45,7 @@ export function LocalArmazenamentoSection() {
   });
 
   const { data: localizacoes, isLoading } = useLocalizacoesList();
+  const { isAdmin, isLoading: isLoadingRole } = useUserRole();
   const createLocalizacao = useCreateLocalizacao();
   const updateLocalizacao = useUpdateLocalizacao();
   const deleteLocalizacao = useDeleteLocalizacao();
@@ -104,7 +106,13 @@ export function LocalArmazenamentoSection() {
             </p>
           </div>
         </div>
-        <Button variant="outline" size="sm" onClick={openNewDialog}>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={openNewDialog}
+          disabled={!isAdmin || isLoadingRole}
+          title={!isAdmin ? "Apenas administradores podem adicionar locais" : undefined}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Novo Local
         </Button>
@@ -120,9 +128,11 @@ export function LocalArmazenamentoSection() {
           <p className="text-muted-foreground">
             Nenhum local de armazenamento cadastrado
           </p>
-          <Button variant="link" onClick={openNewDialog} className="mt-2">
-            Cadastrar primeiro local
-          </Button>
+          {isAdmin && (
+            <Button variant="link" onClick={openNewDialog} className="mt-2">
+              Cadastrar primeiro local
+            </Button>
+          )}
         </div>
       ) : (
         <Table>
@@ -145,23 +155,25 @@ export function LocalArmazenamentoSection() {
                     : "-"}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={() => openEditDialog(local)}
-                    >
-                      <Pencil className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={() => handleDelete(local.id)}
-                      className="text-destructive hover:text-destructive"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
+                  {isAdmin && (
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => openEditDialog(local)}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => handleDelete(local.id)}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
